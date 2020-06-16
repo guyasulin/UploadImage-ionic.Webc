@@ -1,20 +1,29 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Blank
+      Upload Image
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+  <div [display]="'flex'">
+    <button ly-button color="primary" (click)="_fileInput.click()">
+      <span>Select File</span>
+    </button>
+    <span [flex]="1"></span>
+    <!-- Hidden input -->
+    <input #_fileInput type="file" (change)="fileChangeEvent($event)" (change)="cropper.selectInputEvent($event)" accept="image/*" hidden>
+    <button raised ly-button bg="accent" (click)="cropIt()" *ngIf="cropper.isLoaded" (click)="cropper.crop()">Upload</button>
   </div>
+  
+  <ly-img-cropper [ngClass]="[classes.cropper, classes.cropCircle]" 
+    [config]="myConfig"
+    [(scale)]="scale"
+    (cropped)="onCropped($event)"
+    (error)="onError($event)"
+  >
+    <span>Drag and drop image</span>
+  </ly-img-cropper>
 </ion-content>
+
